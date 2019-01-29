@@ -40,11 +40,6 @@ func main() {
 		bot.Send(m.Sender, "Hello world")
 	})
 
-	bot.Handle(telebot.OnText, func(m *telebot.Message) {
-		log.Printf("User: {%s} Message: {%s}", m.Sender.Username, m.Text)
-		bot.Send(m.Sender, m.Text)
-	})
-
 	log.Printf("Bot {%s} started…", cfg.BotName)
 	bot.Start()
 }
