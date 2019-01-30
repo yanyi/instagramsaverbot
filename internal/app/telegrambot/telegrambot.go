@@ -22,10 +22,7 @@ func Start(cfg config.Config) {
 		log.Fatal("Can't load the Telegram Bot. Error message: ", err)
 	}
 
-	bot.Handle("/hello", func(m *telebot.Message) {
-		log.Printf("User: {%s} Message: {%s}", m.Sender.Username, m.Text)
-		bot.Send(m.Sender, "Hello world")
-	})
+	loadHandlers(bot)
 
 	log.Printf("Bot {%s} started…", cfg.BotName)
 	bot.Start()
