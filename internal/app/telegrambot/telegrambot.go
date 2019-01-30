@@ -1,30 +1,17 @@
+// Package telegrambot handles all the Telegram bot commands.
 package telegrambot
 
 import (
 	"log"
 	"time"
 
-	"github.com/caarlos0/env"
-	"github.com/joho/godotenv"
+	"github.com/yanyi/go-telegram-bot/internal/pkg/config"
 	telebot "gopkg.in/tucnak/telebot.v2"
 )
 
-type config struct {
-	APIToken string `env:"API_TOKEN"`
-	APIURL   string `env:"API_URL" envDefault:"https://api.telegram.org"`
-	BotName  string `env:"BOT_NAME"`
-}
-
-func Start() {
-	if err := godotenv.Load("configs/.env"); err != nil {
-		log.Fatalf("Can't load .env file. Error message: %v", err)
-	}
-
-	var cfg config
-	if err := env.Parse(&cfg); err != nil {
-		log.Fatalf("Can't parse environment variables. Error message: %v", err)
-	}
-
+// Start will take in the configurations required for the Telegram bot, and
+// then it will start the Telegram bot.
+func Start(cfg config.Config) {
 	bot, err := telebot.NewBot(telebot.Settings{
 		Token:  cfg.APIToken,
 		URL:    cfg.APIURL,
