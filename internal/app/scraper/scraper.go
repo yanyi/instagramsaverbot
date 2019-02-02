@@ -35,6 +35,11 @@ func Scrape(inputURL string, urls *[]string) error {
 		return err
 	}
 
+	// No image found
+	if len(*urls) == 0 {
+		return errors.New("No image found in the Instagram post")
+	}
+
 	return nil
 }
 
