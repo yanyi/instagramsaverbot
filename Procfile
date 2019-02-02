@@ -1,1 +1,1 @@
-bot: go run cmd/instagramsaverbot/main.go
+web: cmd/instagramsaverbot
