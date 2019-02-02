@@ -16,11 +16,13 @@ var (
 
 // Config represents the configurations required for the application to run.
 type Config struct {
-	Version uint32 `yaml:"version"`
-	Configs struct {
-		AppEnv      string            `yaml:"app_env"`
-		TelegramBot map[string]string `yaml:"telegram_bot"`
-	} `yaml:"configs"`
+	Version uint32  `yaml:"version"`
+	Configs Configs `yaml:"configs"`
+}
+
+type Configs struct {
+	AppEnv      string            `yaml:"app_env"`
+	TelegramBot map[string]string `yaml:"telegram_bot"`
 }
 
 // Load loads the configuration required.
