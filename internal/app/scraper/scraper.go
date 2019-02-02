@@ -52,9 +52,9 @@ func populateInstagramURLs(res *http.Response, urls *[]string) error {
 	}
 
 	responseContentType := res.Header["Content-Type"][0]
-	notEmptyJSON := len(resBodyBytes) > 0
+	notEmptyResponse := len(resBodyBytes) > 0
 
-	if notEmptyJSON || responseContentType == expectedResponseType {
+	if notEmptyResponse && responseContentType == expectedResponseType {
 		unmarshalJSON(resBodyBytes, &post)
 		err := post.getOnlyImageURLs()
 		if err != nil {

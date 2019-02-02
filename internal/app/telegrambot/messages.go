@@ -8,6 +8,7 @@ import (
 )
 
 func sendStartMessage(bot *telebot.Bot, m *telebot.Message) {
+	bot.Notify(m.Chat, telebot.Typing)
 	msg := `Hello 👋! Hi!
 
 To utilize me, send me a message like:
@@ -16,7 +17,7 @@ I will then return you an album of image(s).
 
 If you need help, use the /help command. 😄
 	`
-	bot.Send(m.Sender, msg)
+	bot.Send(m.Chat, msg)
 	logger.Log(
 		"event", "Welcomed user",
 		"sender", m.Sender,
@@ -25,6 +26,7 @@ If you need help, use the /help command. 😄
 }
 
 func sendHelpMsg(bot *telebot.Bot, m *telebot.Message) {
+	bot.Notify(m.Chat, telebot.Typing)
 	helpMsg := `You looked for help!
 
 The available commands I can handle are:
@@ -34,7 +36,7 @@ The available commands I can handle are:
 Happy saving! 😄
 	`
 
-	bot.Send(m.Sender, helpMsg)
+	bot.Send(m.Chat, helpMsg)
 	logger.Log(
 		"event", "Replied user with help commands",
 		"sender", m.Sender,
@@ -42,8 +44,9 @@ Happy saving! 😄
 }
 
 func sendHelloWorld(bot *telebot.Bot, m *telebot.Message) {
+	bot.Notify(m.Chat, telebot.Typing)
 	reply := fmt.Sprintf("Hello, %s 👋", m.Sender.FirstName)
-	bot.Send(m.Sender, reply)
+	bot.Send(m.Chat, reply)
 	logger.Log(
 		"event", "Replied user",
 		"sender", m.Sender,
@@ -56,8 +59,9 @@ func sendInstagramImage(bot *telebot.Bot, m *telebot.Message) {
 	urls := []string{}
 	err := scraper.Scrape(inputURL, &urls)
 	if err != nil {
+		bot.Notify(m.Chat, telebot.Typing)
 		errMsg := fmt.Sprintf("%s. Please try sending an Instagram link that contains a photo. We currently do not support videos 🙇‍♂️.", err.Error())
-		bot.Send(m.Sender, errMsg)
+		bot.Send(m.Chat, errMsg)
 		logger.Log(
 			"event", "Can't scrape link",
 			"error", err,
@@ -68,6 +72,7 @@ func sendInstagramImage(bot *telebot.Bot, m *telebot.Message) {
 
 	logger.Log("event", "Start preparing image album", "sender", m.Sender)
 	album := telebot.Album{}
+	bot.Notify(m.Chat, telebot.UploadingPhoto)
 	for _, url := range urls {
 		photo := telebot.Photo{File: telebot.FromURL(url)}
 		album = append(album, &photo)
@@ -77,6 +82,6 @@ func sendInstagramImage(bot *telebot.Bot, m *telebot.Message) {
 			"photoURL", photo.FileURL,
 		)
 	}
-	bot.SendAlbum(m.Sender, album, telebot.Silent, telebot.NoPreview)
+	bot.SendAlbum(m.Chat, album, telebot.Silent, telebot.NoPreview)
 	logger.Log("event", "Sent image album", "sender", m.Sender)
 }
