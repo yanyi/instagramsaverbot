@@ -12,7 +12,7 @@ func sendStartMessage(bot *telebot.Bot, m *telebot.Message) {
 	msg := `Hello 👋! Hi!
 
 To utilize me, send me a message like:
-/save <instagram url>
+/save https://instagram.com/p/link
 I will then return you an album of image(s).
 
 If you need help, use the /help command. 😄
@@ -30,7 +30,7 @@ func sendHelpMsg(bot *telebot.Bot, m *telebot.Message) {
 	helpMsg := `You looked for help!
 
 The available commands I can handle are:
-- /save <instagram url> - Gives you an album of image(s)
+- /save https://instagram.com/p/link - Gives you an album of image(s)
 - /help - You are viewing the help command now
 
 Happy saving! 😄
