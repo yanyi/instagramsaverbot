@@ -11,4 +11,8 @@ func loadHandlers(bot *telebot.Bot) {
 		log.Printf("User: {%s} Message Received: {%s}", m.Sender.Username, m.Text)
 		go sendHelloWorld(bot, m)
 	})
+
+	bot.Handle("/save", func(m *telebot.Message) {
+		log.Printf("User: {%s} Message Received: {%s}", m.Sender.Username, m.Text)
+	})
 }
