@@ -8,8 +8,7 @@ import (
 )
 
 func sendStartMessage(bot *telebot.Bot, m *telebot.Message) {
-	msg := `
-Hello 👋! Hi!
+	msg := `Hello 👋! Hi!
 
 To utilize me, send me a message like:
 /save <instagram url>
@@ -26,8 +25,7 @@ If you need help, use the /help command. 😄
 }
 
 func sendHelpMsg(bot *telebot.Bot, m *telebot.Message) {
-	helpMsg := `
-You looked for help!
+	helpMsg := `You looked for help!
 
 The available commands I can handle are:
 - /save <instagram url> - Gives you an album of image(s)
