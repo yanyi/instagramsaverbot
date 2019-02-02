@@ -9,13 +9,37 @@ import (
 
 func sendStartMessage(bot *telebot.Bot, m *telebot.Message) {
 	msg := `
-	Hello 👋! To utilize me, send me a message like: /save https://instagram.com/p/url. I will then and send images back to you for your consumption.
+Hello 👋! Hi!
+
+To utilize me, send me a message like:
+/save <instagram url>
+I will then return you an album of image(s).
+
+If you need help, use the /help command. 😄
 	`
 	bot.Send(m.Sender, msg)
 	logger.Log(
 		"event", "Welcomed user",
 		"sender", m.Sender,
 		"reply", msg,
+	)
+}
+
+func sendHelpMsg(bot *telebot.Bot, m *telebot.Message) {
+	helpMsg := `
+You looked for help!
+
+The available commands I can handle are:
+- /save <instagram url> - Gives you an album of image(s)
+- /help - You are viewing the help command now
+
+Happy saving! 😄
+	`
+
+	bot.Send(m.Sender, helpMsg)
+	logger.Log(
+		"event", "Replied user with help commands",
+		"sender", m.Sender,
 	)
 }
 

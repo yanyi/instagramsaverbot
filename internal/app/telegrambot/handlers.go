@@ -15,6 +15,15 @@ func loadHandlers(bot *telebot.Bot) {
 		go sendStartMessage(bot, m)
 	})
 
+	bot.Handle("/help", func(m *telebot.Message) {
+		logger.Log(
+			"event", "Received /help",
+			"sender", m.Sender,
+			"payload", m.Payload,
+		)
+		go sendHelpMsg(bot, m)
+	})
+
 	bot.Handle("/hello", func(m *telebot.Message) {
 		logger.Log(
 			"event", "Received /hello",
