@@ -2,26 +2,36 @@ package main
 
 import (
 	"flag"
-	"log"
 	"os"
 
 	"github.com/yanyi/instagramsaverbot/internal/app/telegrambot"
+	"github.com/yanyi/instagramsaverbot/internal/pkg/applogger"
 	"github.com/yanyi/instagramsaverbot/internal/pkg/config"
 )
 
+const (
+	configFileUsage = "Path to config file from root."
+)
+
 var (
-	configFile = flag.String("file", "configs/config.yml", "Path to config file from root.")
+	logger = applogger.New(os.Stderr)
 )
 
 func main() {
-	flag.StringVar(configFile, "f", "configs/config.yml", "Path to config file from root.")
+	var configFile string
+	flag.StringVar(&configFile, "file", "configs/config.yml", configFileUsage)
+	flag.StringVar(&configFile, "f", "configs/config.yml", configFileUsage)
 	flag.Parse()
 
-	if _, err := os.Stat(*configFile); err == nil {
-		if cfg, ok := config.Load(*configFile); ok {
+	if _, err := os.Stat(configFile); err == nil {
+		if cfg, ok := config.Load(configFile); ok {
 			telegrambot.Start(cfg)
 		}
 	} else if os.IsNotExist(err) {
-		log.Printf("File does not exist: '%v'. Can't start the app. Please check your file.", *configFile)
+		logger.Log(
+			"event", "Unable to load config file",
+			"error", err,
+		)
+		os.Exit(1)
 	}
 }
