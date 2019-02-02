@@ -1,1 +1,1 @@
-web: cmd/instagramsaverbot
+web: ./instagramsaverbot
