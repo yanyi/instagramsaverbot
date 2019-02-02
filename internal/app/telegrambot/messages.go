@@ -14,7 +14,7 @@ func sendStartMessage(bot *telebot.Bot, m *telebot.Message) {
 	bot.Send(m.Sender, msg)
 	logger.Log(
 		"event", "Welcomed user",
-		"username", m.Sender.Username,
+		"sender", m.Sender,
 		"reply", msg,
 	)
 }
@@ -24,7 +24,7 @@ func sendHelloWorld(bot *telebot.Bot, m *telebot.Message) {
 	bot.Send(m.Sender, reply)
 	logger.Log(
 		"event", "Replied user",
-		"username", m.Sender.Username,
+		"sender", m.Sender,
 		"reply", reply,
 	)
 }
@@ -44,14 +44,15 @@ func sendInstagramImage(bot *telebot.Bot, m *telebot.Message) {
 		return
 	}
 
+	album := telebot.Album{}
 	for _, url := range urls {
-		bot.Send(m.Sender, url, telebot.Silent, telebot.NoPreview)
+		photo := telebot.Photo{File: telebot.FromURL(url)}
+		album = append(album, &photo)
 		logger.Log(
-			"event", "Sent Instagram image URL",
-			"username", m.Sender.Username,
-			"reply", url,
+			"event", "Sent Instagram image",
+			"sender", m.Sender,
+			"reply", photo,
 		)
 	}
-
-	bot.Send(m.Sender, "Enjoy your links.")
+	bot.SendAlbum(m.Sender, album, telebot.Silent, telebot.NoPreview)
 }

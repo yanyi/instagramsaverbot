@@ -9,7 +9,7 @@ func loadHandlers(bot *telebot.Bot) {
 	bot.Handle("/start", func(m *telebot.Message) {
 		logger.Log(
 			"event", "Received /start",
-			"username", m.Sender.Username,
+			"sender", m.Sender,
 			"payload", m.Payload,
 		)
 		go sendStartMessage(bot, m)
@@ -18,7 +18,7 @@ func loadHandlers(bot *telebot.Bot) {
 	bot.Handle("/hello", func(m *telebot.Message) {
 		logger.Log(
 			"event", "Received /hello",
-			"username", m.Sender.Username,
+			"sender", m.Sender,
 			"payload", m.Payload,
 		)
 		go sendHelloWorld(bot, m)
@@ -27,7 +27,7 @@ func loadHandlers(bot *telebot.Bot) {
 	bot.Handle("/save", func(m *telebot.Message) {
 		logger.Log(
 			"event", "Received /save",
-			"username", m.Sender.Username,
+			"sender", m.Sender,
 			"payload", m.Payload,
 		)
 		go sendInstagramImage(bot, m)
@@ -36,7 +36,7 @@ func loadHandlers(bot *telebot.Bot) {
 	bot.Handle(telebot.OnText, func(m *telebot.Message) {
 		logger.Log(
 			"event", "Received message unhandled",
-			"username", m.Sender.Username,
+			"sender", m.Sender,
 			"payload", m.Payload,
 		)
 	})
