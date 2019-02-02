@@ -1,1 +1,1 @@
-web: ./bin/amd64/instagramsaverbot -env
+bot: ./bin/amd64/instagramsaverbot -env
