@@ -1,1 +1,1 @@
-web: ./instagramsaverbot
+web: ./bin/instagramsaverbot
