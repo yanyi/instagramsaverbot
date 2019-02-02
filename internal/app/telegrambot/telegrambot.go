@@ -2,11 +2,17 @@
 package telegrambot
 
 import (
-	"log"
+	"fmt"
+	"os"
 	"time"
 
+	"github.com/yanyi/instagramsaverbot/internal/pkg/applogger"
 	"github.com/yanyi/instagramsaverbot/internal/pkg/config"
 	telebot "gopkg.in/tucnak/telebot.v2"
+)
+
+var (
+	logger = applogger.New(os.Stderr)
 )
 
 // Start will take in the configurations required for the Telegram bot, and
@@ -19,11 +25,12 @@ func Start(cfg config.Config) {
 	})
 
 	if err != nil {
-		log.Fatal("Can't load the Telegram Bot. Error message: ", err)
+		logger.Log("event", "Can't load Telegram bot", "error", err)
 	}
 
 	loadHandlers(bot)
+	logger.Log("event", "Loaded Telegram message handlers")
 
-	log.Printf("Bot {%s} started…", cfg.Configs.TelegramBot["bot_name"])
+	logger.Log("event", fmt.Sprintf("Bot %s started…", cfg.Configs.TelegramBot["bot_name"]))
 	bot.Start()
 }

@@ -1,18 +1,26 @@
 package telegrambot
 
 import (
-	"log"
-
 	telebot "gopkg.in/tucnak/telebot.v2"
 )
 
 func loadHandlers(bot *telebot.Bot) {
+
 	bot.Handle("/hello", func(m *telebot.Message) {
-		log.Printf("User: {%s} Message Received: {%s}", m.Sender.Username, m.Text)
+		logger.Log(
+			"event", "Received /hello command",
+			"username", m.Sender.Username,
+			"received", m.Text,
+		)
 		go sendHelloWorld(bot, m)
 	})
 
 	bot.Handle("/save", func(m *telebot.Message) {
-		log.Printf("User: {%s} Message Received: {%s}", m.Sender.Username, m.Text)
+		logger.Log(
+			"event", "Received /save command",
+			"username", m.Sender.Username,
+			"received", m.Text,
+		)
+		go sendInstagramImage(bot, m)
 	})
 }
