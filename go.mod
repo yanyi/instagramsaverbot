@@ -1,3 +1,6 @@
+// +heroku goVersion go1.11.4
+// +heroku install ./...
+
 module github.com/yanyi/instagramsaverbot
 
 require (
