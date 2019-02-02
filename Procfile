@@ -1,1 +1,1 @@
-bot: ./bin/amd64/instagramsaverbot -env
+worker: ./bin/amd64/instagramsaverbot -env
