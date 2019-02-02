@@ -2,17 +2,19 @@
 package config
 
 import (
+	"io/ioutil"
 	"log"
 
-	"github.com/caarlos0/env"
-	"github.com/joho/godotenv"
+	"gopkg.in/yaml.v2"
 )
 
 // Config represents the configurations required for the application to run.
 type Config struct {
-	APIToken string `env:"API_TOKEN"`
-	APIURL   string `env:"API_URL" envDefault:"https://api.telegram.org"`
-	BotName  string `env:"BOT_NAME"`
+	Version uint32 `yaml:"version"`
+	Configs struct {
+		AppEnv      string            `yaml:"app_env"`
+		TelegramBot map[string]string `yaml:"telegram_bot"`
+	} `yaml:"configs"`
 }
 
 // Load loads the configuration required.
@@ -20,12 +22,13 @@ type Config struct {
 func Load() (config Config, ok bool) {
 	var cfg Config
 
-	if err := godotenv.Load("configs/.env"); err != nil {
-		log.Fatalf("Can't load .env file. Error message: %v", err)
+	file, err := ioutil.ReadFile("configs/config.yml")
+	if err != nil {
+		log.Fatalf("Can't load config.yml file. Error message: %v", err)
 	}
-
-	if err := env.Parse(&cfg); err != nil {
-		log.Fatalf("Can't parse environment variables. Error message: %v", err)
+	err = yaml.Unmarshal(file, &cfg)
+	if err != nil {
+		log.Fatalf("Unable to unmarshal config.yml file. Error message: %v", err)
 	}
 
 	ok = true

@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/yanyi/go-telegram-bot/internal/pkg/config"
+	"github.com/yanyi/instagramsaverbot/internal/pkg/config"
 	telebot "gopkg.in/tucnak/telebot.v2"
 )
 
@@ -13,8 +13,8 @@ import (
 // then it will start the Telegram bot.
 func Start(cfg config.Config) {
 	bot, err := telebot.NewBot(telebot.Settings{
-		Token:  cfg.APIToken,
-		URL:    cfg.APIURL,
+		Token:  cfg.Configs.TelegramBot["api_token"],
+		URL:    cfg.Configs.TelegramBot["api_url"],
 		Poller: &telebot.LongPoller{Timeout: 10 * time.Second},
 	})
 
@@ -24,6 +24,6 @@ func Start(cfg config.Config) {
 
 	loadHandlers(bot)
 
-	log.Printf("Bot {%s} started…", cfg.BotName)
+	log.Printf("Bot {%s} started…", cfg.Configs.TelegramBot["bot_name"])
 	bot.Start()
 }

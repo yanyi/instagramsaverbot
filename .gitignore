@@ -12,8 +12,8 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
-# Environment variables for secrets
-*.env
+# config.yml
+config.yml
 
 ### Go Patch ###
 /vendor/

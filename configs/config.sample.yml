@@ -1,0 +1,8 @@
+version: 1
+
+configs:
+  app_env: development
+  telegram_bot:
+    api_token:
+    api_url: https://api.telegram.org
+    bot_name: Instagram Saver Bot
