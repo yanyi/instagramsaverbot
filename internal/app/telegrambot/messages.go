@@ -44,15 +44,17 @@ func sendInstagramImage(bot *telebot.Bot, m *telebot.Message) {
 		return
 	}
 
+	logger.Log("event", "Start preparing image album", "sender", m.Sender)
 	album := telebot.Album{}
 	for _, url := range urls {
 		photo := telebot.Photo{File: telebot.FromURL(url)}
 		album = append(album, &photo)
 		logger.Log(
-			"event", "Sent Instagram image",
+			"event", "Gotten Instagram image",
 			"sender", m.Sender,
 			"reply", photo,
 		)
 	}
 	bot.SendAlbum(m.Sender, album, telebot.Silent, telebot.NoPreview)
+	logger.Log("event", "Sent image album", "sender", m.Sender, "album", album)
 }

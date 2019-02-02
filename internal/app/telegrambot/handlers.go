@@ -10,7 +10,7 @@ func loadHandlers(bot *telebot.Bot) {
 		logger.Log(
 			"event", "Received /start",
 			"sender", m.Sender,
-			"payload", m.Payload,
+			"payload", m.Text,
 		)
 		go sendStartMessage(bot, m)
 	})
@@ -37,7 +37,7 @@ func loadHandlers(bot *telebot.Bot) {
 		logger.Log(
 			"event", "Received message unhandled",
 			"sender", m.Sender,
-			"payload", m.Payload,
+			"message", m.Text,
 		)
 	})
 }
