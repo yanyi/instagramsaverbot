@@ -52,9 +52,9 @@ func sendInstagramImage(bot *telebot.Bot, m *telebot.Message) {
 		logger.Log(
 			"event", "Gotten Instagram image",
 			"sender", m.Sender,
-			"reply", photo,
+			"photoURL", photo.FileURL,
 		)
 	}
 	bot.SendAlbum(m.Sender, album, telebot.Silent, telebot.NoPreview)
-	logger.Log("event", "Sent image album", "sender", m.Sender, "album", album)
+	logger.Log("event", "Sent image album", "sender", m.Sender)
 }
