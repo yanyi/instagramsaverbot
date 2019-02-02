@@ -64,7 +64,7 @@ func populateInstagramURLs(res *http.Response, urls *[]string) error {
 		return errors.New("Unable to process link given. Please try again")
 	}
 
-	*urls = post.ImageURLs
+	*urls = append(*urls, post.ImageURLs...)
 
 	return nil
 }
