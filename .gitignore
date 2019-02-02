@@ -14,7 +14,3 @@
 
 # config.yml
 config.yml
-
-### Go Patch ###
-/vendor/
-/Godeps/
