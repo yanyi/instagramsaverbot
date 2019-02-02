@@ -96,10 +96,7 @@ func checkIfInstagram(bot *telebot.Bot, m *telebot.Message) {
 	urlsSlice := []string{}
 	if len(urls) > 0 {
 		for _, url := range urls {
-			err := scraper.Scrape(url, &urlsSlice)
-			if err != nil {
-				fmt.Println(err)
-			}
+			scraper.Scrape(url, &urlsSlice)
 		}
 	}
 
