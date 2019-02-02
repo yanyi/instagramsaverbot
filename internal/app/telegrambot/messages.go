@@ -5,6 +5,7 @@ import (
 
 	"github.com/yanyi/instagramsaverbot/internal/app/scraper"
 	telebot "gopkg.in/tucnak/telebot.v2"
+	xurls "mvdan.cc/xurls/v2"
 )
 
 func sendStartMessage(bot *telebot.Bot, m *telebot.Message) {
@@ -57,6 +58,7 @@ func sendHelloWorld(bot *telebot.Bot, m *telebot.Message) {
 func sendInstagramImage(bot *telebot.Bot, m *telebot.Message) {
 	inputURL := m.Payload
 	urls := []string{}
+
 	err := scraper.Scrape(inputURL, &urls)
 	if err != nil {
 		bot.Notify(m.Chat, telebot.Typing)
@@ -84,4 +86,39 @@ func sendInstagramImage(bot *telebot.Bot, m *telebot.Message) {
 	}
 	bot.SendAlbum(m.Chat, album, telebot.Silent, telebot.NoPreview)
 	logger.Log("event", "Sent image album", "sender", m.Sender)
+}
+
+func checkIfInstagram(bot *telebot.Bot, m *telebot.Message) {
+	message := m.Text
+	logger.Log("event", "Checking if it's Instagram link", "message", message)
+	urls := xurls.Relaxed().FindAllString(message, -1)
+
+	urlsSlice := []string{}
+	if len(urls) > 0 {
+		for _, url := range urls {
+			err := scraper.Scrape(url, &urlsSlice)
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
+	}
+
+	// Found Instagram link(s)
+	if len(urlsSlice) > 0 {
+		logger.Log("event", "Found Instagram link(s)", "urls", urlsSlice)
+		logger.Log("event", "Start preparing image album", "sender", m.Sender)
+		album := telebot.Album{}
+		bot.Notify(m.Chat, telebot.UploadingPhoto)
+		for _, url := range urlsSlice {
+			photo := telebot.Photo{File: telebot.FromURL(url)}
+			album = append(album, &photo)
+			logger.Log(
+				"event", "Gotten Instagram image",
+				"sender", m.Sender,
+				"photoURL", photo.FileURL,
+			)
+		}
+		bot.SendAlbum(m.Chat, album, telebot.Silent, telebot.NoPreview)
+		logger.Log("event", "Sent image album", "sender", m.Sender)
+	}
 }

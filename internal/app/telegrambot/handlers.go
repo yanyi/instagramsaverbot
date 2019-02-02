@@ -48,5 +48,6 @@ func loadHandlers(bot *telebot.Bot) {
 			"sender", m.Sender,
 			"message", m.Text,
 		)
+		go checkIfInstagram(bot, m)
 	})
 }
