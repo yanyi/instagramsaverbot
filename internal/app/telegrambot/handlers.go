@@ -10,7 +10,7 @@ func loadHandlers(bot *telebot.Bot) {
 		logger.Log(
 			"event", "Received /start",
 			"sender", m.Sender,
-			"payload", m.Text,
+			"payload", m.Payload,
 		)
 		go sendStartMessage(bot, m)
 	})
@@ -39,15 +39,35 @@ func loadHandlers(bot *telebot.Bot) {
 			"sender", m.Sender,
 			"payload", m.Payload,
 		)
-		go sendInstagramImage(bot, m)
+
+		go func() {
+			instagram, urls, err := checkIfContainsInstagram(bot, m)
+			if err != nil {
+				sendErrorMsg(bot, m, err)
+			}
+
+			if instagram {
+				sendImageAlbum(bot, m, urls)
+			}
+		}()
 	})
 
 	bot.Handle(telebot.OnText, func(m *telebot.Message) {
 		logger.Log(
 			"event", "Received message unhandled",
 			"sender", m.Sender,
-			"message", m.Text,
+			"userMessage", m.Text,
 		)
-		go checkIfInstagram(bot, m)
+		go func() {
+			instagram, urls, err := checkIfContainsInstagram(bot, m)
+			if err != nil {
+				sendErrorMsg(bot, m, err)
+			}
+
+			if instagram {
+				sendImageAlbum(bot, m, urls)
+			}
+		}()
+
 	})
 }
