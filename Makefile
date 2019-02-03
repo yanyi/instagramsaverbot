@@ -64,6 +64,9 @@ go.build.mac: go.build.generic
 # Heroku
 # ---------------------------
 
+push.heroku: GOOS=linux
+push.heroku: CGO_ENABLED=0
+push.heroku: GOARCH=amd64
 push.heroku: go.build.heroku
 	git add $(BUILD_PATH)
 	git commit -m "Add binary for Heroku"
