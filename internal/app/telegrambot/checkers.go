@@ -14,11 +14,15 @@ import (
 func checkIfContainsInstagram(bot *telebot.Bot, m *telebot.Message) (bool, []string, error) {
 	userMsg := m.Text
 	urlsFromMsg := xurls.Relaxed().FindAllString(userMsg, -1)
+	logger.Log(
+		"event", "Checking if there is an Instagram post",
+		"userMessage", userMsg,
+		"sender", m.Sender,
+	)
 
 	// Main logic to check for Instagram posts
 	urls := []string{}
 	var err error
-	logger.Log("event", "Checking if there is an Instagram post", "userMessage", userMsg)
 	if len(urlsFromMsg) > 0 {
 		for _, url := range urlsFromMsg {
 			err = scraper.Scrape(url, &urls)

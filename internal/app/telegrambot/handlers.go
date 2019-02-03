@@ -40,16 +40,7 @@ func loadHandlers(bot *telebot.Bot) {
 			"payload", m.Payload,
 		)
 
-		go func() {
-			instagram, urls, err := checkIfContainsInstagram(bot, m)
-			if err != nil {
-				sendErrorMsg(bot, m, err)
-			}
-
-			if instagram {
-				sendImageAlbum(bot, m, urls)
-			}
-		}()
+		go handleInstagramLinkCheck(bot, m)
 	})
 
 	bot.Handle(telebot.OnText, func(m *telebot.Message) {
@@ -58,16 +49,27 @@ func loadHandlers(bot *telebot.Bot) {
 			"sender", m.Sender,
 			"userMessage", m.Text,
 		)
-		go func() {
-			instagram, urls, err := checkIfContainsInstagram(bot, m)
-			if err != nil {
-				sendErrorMsg(bot, m, err)
-			}
 
-			if instagram {
-				sendImageAlbum(bot, m, urls)
-			}
-		}()
-
+		go handleInstagramLinkCheck(bot, m)
 	})
+}
+
+func handleInstagramLinkCheck(bot *telebot.Bot, m *telebot.Message) {
+	instagram, urls, err := checkIfContainsInstagram(bot, m)
+	if err != nil {
+		logger.Log(
+			"event", "Did not find any Instagram post/photo from the message sent",
+			"error", err,
+			"sender", m.Sender,
+		)
+		sendErrorMsg(bot, m, err)
+	}
+
+	if instagram {
+		logger.Log(
+			"event", "Found at least one Instagram post from message sent",
+			"sender", m.Sender,
+		)
+		sendImageAlbum(bot, m, urls)
+	}
 }

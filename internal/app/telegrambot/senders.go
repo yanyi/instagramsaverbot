@@ -57,9 +57,8 @@ func sendInstagramImage(bot *telebot.Bot, m *telebot.Message) {
 }
 
 func sendImageAlbum(bot *telebot.Bot, m *telebot.Message, urls []string) {
-	bot.Send(m.Chat, foundLinkMsg)
-	logger.Log("event", "Start preparing image album", "sender", m.Sender)
 	album := telebot.Album{}
+	logger.Log("event", "Start preparing image album", "sender", m.Sender)
 	bot.Notify(m.Chat, telebot.UploadingPhoto)
 
 	for _, url := range urls {
@@ -67,13 +66,17 @@ func sendImageAlbum(bot *telebot.Bot, m *telebot.Message, urls []string) {
 		album = append(album, &photo)
 		logger.Log(
 			"event", "Gotten Instagram image",
-			"sender", m.Sender,
-			"photoURL", photo.FileURL,
+			// "sender", m.Sender,
+			// "photoURL", photo.FileURL,
 		)
 	}
 
 	bot.SendAlbum(m.Chat, album, telebot.Silent, telebot.NoPreview)
-	logger.Log("event", "Sent image album", "sender", m.Sender)
+	logger.Log(
+		"event", "Sent image album",
+		"sender", m.Sender,
+	)
+	bot.Send(m.Chat, foundLinkMsg)
 }
 
 func sendErrorMsg(bot *telebot.Bot, m *telebot.Message, err error) {
