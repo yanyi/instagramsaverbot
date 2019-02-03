@@ -3,7 +3,6 @@ package telegrambot
 import (
 	"fmt"
 
-	"github.com/yanyi/instagramsaverbot/internal/app/scraper"
 	telebot "gopkg.in/tucnak/telebot.v2"
 )
 
@@ -34,26 +33,6 @@ func sendHelloWorld(bot *telebot.Bot, m *telebot.Message) {
 		"sender", m.Sender,
 		"reply", reply,
 	)
-}
-
-func sendInstagramImage(bot *telebot.Bot, m *telebot.Message) {
-	inputURL := m.Payload
-	urls := []string{}
-
-	err := scraper.Scrape(inputURL, &urls)
-	if err != nil {
-		bot.Notify(m.Chat, telebot.Typing)
-		msg := fmt.Sprintf(errMsg, err.Error())
-		bot.Send(m.Chat, msg)
-		logger.Log(
-			"event", "Can't scrape link",
-			"error", err,
-			"payload", m.Payload,
-		)
-		return
-	}
-
-	sendImageAlbum(bot, m, urls)
 }
 
 func sendImageAlbum(bot *telebot.Bot, m *telebot.Message, urls []string) {
