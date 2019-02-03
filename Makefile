@@ -60,13 +60,6 @@ go.build.mac: GOARCH=amd64
 go.build.mac: go.build.generic
 .PHONY: go.build.mac
 
-# Build binary for alpine (Docker image)
-go.build.alpine: GOOS=linux
-go.build.alpine: CGO_ENABLED=1
-go.build.alpine: GOARCH=386
-go.build.alpine: go.build.generic
-.PHONY: go.build.alpine
-
 # ---------------------------
 # Heroku
 # ---------------------------
