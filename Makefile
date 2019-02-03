@@ -12,11 +12,6 @@ BUILD_PATH=bin/$(GOOS)/$(GOARCH)/$(BINARY_NAME)
 # Docker
 # ---------------------------
 
-docker.test:
-	@echo "Test"
-	ls -la
-.PHONY: docker.test
-
 # Build the Docker image
 docker.build: DOCKER_TAG=$(shell git rev-parse --short HEAD)
 docker.build:
