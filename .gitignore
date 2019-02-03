@@ -6,6 +6,11 @@
 *.so
 *.dylib
 
+# Ignore /bin
+# But allow one for Heroku
+bin/*
+!bin/linux/
+
 # Test binary, built with `go test -c`
 *.test
 
