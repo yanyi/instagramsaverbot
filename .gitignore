@@ -9,7 +9,7 @@
 # Ignore /bin
 # But allow one for Heroku
 bin/*
-!bin/linux/
+!bin/linux/amd64/
 
 # Test binary, built with `go test -c`
 *.test
