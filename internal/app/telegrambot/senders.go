@@ -65,9 +65,7 @@ func sendImageAlbum(bot *telebot.Bot, m *telebot.Message, urls []string) {
 		photo := telebot.Photo{File: telebot.FromURL(url)}
 		album = append(album, &photo)
 		logger.Log(
-			"event", "Gotten Instagram image",
-			// "sender", m.Sender,
-			// "photoURL", photo.FileURL,
+			"event", "Got an Instagram image",
 		)
 	}
 
