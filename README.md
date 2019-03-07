@@ -7,7 +7,7 @@ What Instagram Saver Bot does is to provide users with the ease of sending an
 Instagram URL and the bot sends back the user the image(s) requested. All
 through Telegram.
 
-The application is live, hosted on Heroku, at [@InstagramSaverBot](t.me/InstagramSaverBot).
+The application is live, hosted on Heroku, at [@InstagramSaverBot](https://t.me/InstagramSaverBot).
 
 ## Setup
 
