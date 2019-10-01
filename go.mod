@@ -18,3 +18,5 @@ require (
 	gopkg.in/yaml.v2 v2.2.2
 	mvdan.cc/xurls/v2 v2.0.0
 )
+
+go 1.13
