@@ -22,7 +22,7 @@ RUN GO111MODULE=on go get -v -d ./...
 COPY . .
 
 WORKDIR $APP_HOME/cmd/instagramsaverbot
-RUN env CGO_ENABLE=1 GOOS=linux GOARCH=386 go build -o /go/bin/instagramsaverbot
+RUN env CGO_ENABLE=1 GOOS=linux GOARCH=386 GO111MODULE=on go build -ldflags="-w -s" -o /go/bin/instagramsaverbot
 
 # ---------------------------
 # Resulting image
