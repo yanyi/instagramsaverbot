@@ -12,9 +12,14 @@ RUN apk update && \
 		git && \
 	rm -rf /var/lib/apt/lists/*
 
-COPY . $APP_HOME
 WORKDIR $APP_HOME
+
+COPY go.mod .
+COPY go.sum .
+
 RUN GO111MODULE=on go get -v -d ./...
+
+COPY . .
 
 WORKDIR $APP_HOME/cmd/instagramsaverbot
 RUN env CGO_ENABLE=1 GOOS=linux GOARCH=386 go build -o /go/bin/instagramsaverbot
